@@ -9,15 +9,14 @@ BUILD=.out
 OBJ=$(BUILD)/obj
 BIN=$(BUILD)/bin
 
-BINARIES = HashTable.out Search.out Sort.out
-OBJECTS = HashTable.o Search.o Sort.o
+SOURCES = HashTable.out Search.out Sort.out
 
-.PHONY: all compile run clean
+.PHONY: compile run clean
 
-compile: $(BINARIES)
+compile: $(SOURCES)
 	@echo make complete.
 
-%.out: $(OBJECTS)
+%.out: %.o
 	@mkdir -p $(BIN)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ)/$< -o $(BIN)/$@ $(LIBS)
 

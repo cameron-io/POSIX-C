@@ -32,3 +32,20 @@ void quickSort(int arr[], int low, int high)
     }
 }
 
+// TEST
+
+#include <stdio.h>
+#include "Util.h"
+
+#define SIZE 10
+
+int
+main()
+{
+    int arr[SIZE] = {6,3,5,8,2,7,4,1,9,5};
+    
+    printArray(arr, SIZE);
+    printf("* Performing QuickSort...\n");
+    quickSort(arr, 0, SIZE);
+    printArray(arr, SIZE);
+}
