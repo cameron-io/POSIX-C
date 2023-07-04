@@ -19,7 +19,8 @@ NC = '\033[0m'
 compile: $(SOURCES)
 	@echo compilation complete.
 
-run:
+run: compile
+	@echo -e ${CLR}Running tests...${NC} $(TEST)
 	@./$(BIN)/$(TEST).out
 
 %.out: %.o
