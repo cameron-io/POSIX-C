@@ -14,7 +14,8 @@ typedef struct {
 
 Stack* stack;
 
-void stack_init() {    
+void stack_init() {
+    stack = (Stack*) malloc(sizeof(Stack));
     stack->head = NULL;
     stack->tail = NULL;
     stack->size = 0;
@@ -22,14 +23,15 @@ void stack_init() {
 
 // unshift
 void stack_add(char* value) {
-    Node* node;
+    Node* node = (Node*) malloc(sizeof(Node));
     node->value = value;
     if (!stack->size) {
         node->next = NULL;
         stack->head = node;
         stack->tail = node;
     } else {
-        Node* prev_head = stack->head;
+        Node* prev_head = (Node*) malloc(sizeof(Node));
+        prev_head = stack->head;
         node->next = prev_head;
         stack->head = node;
     }
@@ -39,7 +41,8 @@ void stack_add(char* value) {
 // shift
 void stack_remove() {
     if (!stack->size) return;
-    Node* prev_head = stack->head;
+    Node* prev_head = (Node*) malloc(sizeof(Node));
+    prev_head = stack->head;
     stack->head = prev_head->next;
     if (!stack->head) stack->tail = NULL;
     stack->size--;
@@ -49,7 +52,7 @@ void stack_log() {
     if (!stack->head) return;
     Node* node = stack->head;
     while (node) {
-        printf("%s", node->value);
+        printf("-> %s\n", node->value);
         node = node->next;
     }
 }
@@ -59,6 +62,10 @@ int main() {
     stack_add("Ford");
     stack_add("Chevrolet");
     stack_add("Dodge");
+    printf("Stack 1:\n");
+    stack_log();
+    printf("\n");
     stack_remove();
+    printf("Stack 2:\n");
     stack_log();
 }
