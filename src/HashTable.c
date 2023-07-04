@@ -63,7 +63,8 @@ Record* ht_delete(char* key) {
         if (table[bucket_index][i]->key == key) {
             Record* deleted_record = table[bucket_index][i];
             table[bucket_index][i] = null_terminator;
-            return deleted_record;
+            free(deleted_record);
+            return NULL;
         }
         bucket_index++;
     }
