@@ -1,7 +1,5 @@
 
-int
-binarySearch(int arr[], int x, int low, int high)
-{
+int binarySearch(int arr[], int x, int low, int high) {
     // Repeat until the pointers low and high meet each other
     while (low <= high) {
         int mid = low + (high - low) / 2;
@@ -25,9 +23,7 @@ binarySearch(int arr[], int x, int low, int high)
 
 #define SIZE 10
 
-int
-main()
-{
+int main() {
     int arr[SIZE] = {6,3,5,8,2,7,4,1,9,5};
     
     int value = 7;

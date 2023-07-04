@@ -5,85 +5,77 @@
 
 #define SIZE 20
 
-struct DataItem {
-   int data;
+typedef struct {
    int key;
-};
+   int data;
+} Record;
 
-struct DataItem* hashArray[SIZE];
-struct DataItem* nullTerminator;
-struct DataItem* item;
+Record* hash_table[SIZE];
+Record* null_terminator;
 
-int
-hashCode(int key)
-{
+int hash(int key) {
    return key % SIZE;
 }
 
-struct
-DataItem *search(int key)
-{
-    int hashIndex = hashCode(key);  
+void init() {
+    null_terminator = (Record*) malloc(sizeof(Record));
+    null_terminator->data = -1;
+    null_terminator->key = -1;
+}
+
+void insert(int key, int data) {
+    int hash_index = hash(key);
+    Record* record = (Record*) malloc(sizeof(Record));
+    record->data = data;  
+    record->key = key;
+
+    while(hash_table[hash_index] != NULL && hash_table[hash_index]->key != -1) {
+        ++hash_index;
+        hash_index %= SIZE;
+    }
+    hash_table[hash_index] = record;
+}
+
+Record *query(int key) {
+    int hash_index = hash(key);  
  
-    while(hashArray[hashIndex] != NULL) {        
-        if(hashArray[hashIndex]->key == key)
-            return hashArray[hashIndex];
-        ++hashIndex;
-        hashIndex %= SIZE;
+    while(hash_table[hash_index] != NULL) {        
+        if(hash_table[hash_index]->key == key)
+            return hash_table[hash_index];
+        ++hash_index;
+        hash_index %= SIZE;
     }    
     return NULL;
 }
 
-void
-insert(int key,int data)
-{
-    int hashIndex = hashCode(key);
-    struct DataItem *item = (struct DataItem*) malloc(sizeof(struct DataItem));
-    item->data = data;  
-    item->key = key;
+Record* delete(Record* record) {
+    int key = record->key;
+    int hash_index = hash(key);
 
-    while(hashArray[hashIndex] != NULL && hashArray[hashIndex]->key != -1) {
-        ++hashIndex;
-        hashIndex %= SIZE;
-    }    
-    hashArray[hashIndex] = item;
-}
-
-struct
-DataItem* delete(struct DataItem* item)
-{
-    int key = item->key;
-    int hashIndex = hashCode(key);
-
-    while(hashArray[hashIndex] != NULL) {	
-        if(hashArray[hashIndex]->key == key) {
-            struct DataItem* temp = hashArray[hashIndex];
-            hashArray[hashIndex] = nullTerminator;
+    while (hash_table[hash_index] != NULL) {	
+        if (hash_table[hash_index]->key == key) {
+            Record* temp = hash_table[hash_index];
+            hash_table[hash_index] = null_terminator;
             return temp;
         }
-        ++hashIndex;
-        hashIndex %= SIZE;
+        hash_index++;
+        hash_index %= SIZE;
     }
     return NULL;
 }
 
-void
-display()
-{
+void print_all() {
     for (int i = 0; i < SIZE; i++) {
-        if(hashArray[i] != NULL)
-            printf(" (%d,%d)",hashArray[i]->key,hashArray[i]->data);
+        if (hash_table[i] != NULL)
+            printf(" (%d, %d) ", hash_table[i]->key, hash_table[i]->data);
         else
-            printf(" ~~ ");
+            printf(" () ");
     }
     printf("\n");
 }
 
-int
-main() {
-    nullTerminator = (struct DataItem*) malloc(sizeof(struct DataItem));
-    nullTerminator->data = -1;
-    nullTerminator->key = -1;
+int main() {
+    init();
 
     insert(1, 20);
     insert(2, 70);
@@ -95,19 +87,19 @@ main() {
     insert(13, 78);
     insert(37, 97);
 
-    display();
-    item = search(37);
+    print_all();
+    Record* record = query(37);
 
-    if(item != NULL)
-        printf("Element found: %d\n", item->data);
+    if(record != NULL)
+        printf("Element found: %d\n", record->data);
     else
         printf("Element not found\n");
 
-    delete(item);
-    item = search(37);
+    delete(record);
+    record = query(37);
 
-    if(item != NULL)
-        printf("Element found: %d\n", item->data);
+    if(record != NULL)
+        printf("Element found: %d\n", record->data);
     else
         printf("Element not found\n");
 }

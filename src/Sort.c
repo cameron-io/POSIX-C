@@ -1,13 +1,11 @@
 
-void swap(int arr[], int a, int b)
-{
+void swap(int arr[], int a, int b) {
     int t = arr[a];
     arr[a] = arr[b];
     arr[b] = t;
 }
 
-int partition(int arr[], int low, int high)
-{
+int partition(int arr[], int low, int high) {
     int pivot = arr[high];
     int i = (low - 1);
 
@@ -22,8 +20,7 @@ int partition(int arr[], int low, int high)
     return (i + 1);
 }
 
-void quickSort(int arr[], int low, int high)
-{
+void quickSort(int arr[], int low, int high) {
     if (low < high) {
         int pi = partition(arr, low, high);
     
@@ -39,9 +36,7 @@ void quickSort(int arr[], int low, int high)
 
 #define SIZE 10
 
-int
-main()
-{
+int main() {
     int arr[SIZE] = {6,3,5,8,2,7,4,1,9,5};
     
     printArray(arr, SIZE);

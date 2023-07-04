@@ -14,16 +14,17 @@ SOURCES = HashTable.out Search.out Sort.out
 .PHONY: compile run clean
 
 compile: $(SOURCES)
-	@echo make complete.
+	@echo compilation complete.
 
 %.out: %.o
+	@echo "  > linking $@..."
 	@mkdir -p $(BIN)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ)/$< -o $(BIN)/$@ $(LIBS)
+	@$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ)/$< -o $(BIN)/$@ $(LIBS)
 
-# Rule
 %.o: $(SRC)/%.c
+	@echo - compiling $<...
 	@mkdir -p $(OBJ)
-	$(CC) $(CFLAGS) -c $< -o $(OBJ)/$@
+	@$(CC) $(CFLAGS) -c $< -o $(OBJ)/$@
 
 clean:
 	rm -rf $(BUILD)
