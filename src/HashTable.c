@@ -5,7 +5,7 @@
 
 typedef struct {
    int key;
-   int data;
+   int value;
 } Record;
 
 #define SIZE 20
@@ -19,14 +19,14 @@ int hash(int key) {
 
 void init() {
     null_terminator = (Record*) malloc(sizeof(Record));
-    null_terminator->data = -1;
+    null_terminator->value = -1;
     null_terminator->key = -1;
 }
 
-void insert(int key, int data) {
+void insert(int key, int value) {
     int hash_index = hash(key);
     Record* record = (Record*) malloc(sizeof(Record));
-    record->data = data;  
+    record->value = value;  
     record->key = key;
 
     while(hash_table[hash_index] != NULL && hash_table[hash_index]->key != -1) {
@@ -68,7 +68,7 @@ Record* delete(Record* record) {
 void print_table() {
     for (int i = 0; i < SIZE; i++) {
         if (hash_table[i] != NULL)
-            printf(" (%d, %d) ", hash_table[i]->key, hash_table[i]->data);
+            printf(" (%d, %d) ", hash_table[i]->key, hash_table[i]->value);
         else
             printf(" () ");
     }
@@ -92,7 +92,7 @@ int main() {
 
     // Query
     Record* record = query(37);
-    printf("Record 37 query  : %d\n", record->data);
+    printf("Record 37 query  : %d\n", record->value);
 
     // Delete Record
     delete(record);
