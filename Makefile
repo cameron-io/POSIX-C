@@ -16,6 +16,9 @@ SOURCES = HashTable.out Search.out Sort.out
 compile: $(SOURCES)
 	@echo compilation complete.
 
+run:
+	@./$(BIN)/$(TEST).out
+
 %.out: %.o
 	@echo "  > linking $@..."
 	@mkdir -p $(BIN)
