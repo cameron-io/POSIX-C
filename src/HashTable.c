@@ -13,18 +13,18 @@ typedef struct {
 Record* hash_table[SIZE];
 Record* null_terminator;
 
-int hash(int key) {
+int ht_hash(int key) {
    return key % SIZE;
 }
 
-void init() {
+void ht_init() {
     null_terminator = (Record*) malloc(sizeof(Record));
     null_terminator->value = -1;
     null_terminator->key = -1;
 }
 
-void insert(int key, int value) {
-    int hash_index = hash(key);
+void ht_insert(int key, int value) {
+    int hash_index = ht_hash(key);
     Record* record = (Record*) malloc(sizeof(Record));
     record->value = value;  
     record->key = key;
@@ -36,8 +36,8 @@ void insert(int key, int value) {
     hash_table[hash_index] = record;
 }
 
-Record* query(int key) {
-    int hash_index = hash(key);
+Record* ht_query(int key) {
+    int hash_index = ht_hash(key);
  
     while(hash_table[hash_index] != NULL) {
         if(hash_table[hash_index]->key == key)
@@ -49,9 +49,9 @@ Record* query(int key) {
     return NULL;
 }
 
-Record* delete(Record* record) {
+Record* ht_delete(Record* record) {
     int key = record->key;
-    int hash_index = hash(key);
+    int hash_index = ht_hash(key);
 
     while (hash_table[hash_index] != NULL) {
         if (hash_table[hash_index]->key == key) {
@@ -76,28 +76,28 @@ void print_table() {
 }
 
 int main() {
-    init();
+    ht_init();
 
-    insert(1, 20);
-    insert(2, 70);
-    insert(42, 80);
-    insert(4, 25);
-    insert(12, 44);
-    insert(14, 32);
-    insert(17, 11);
-    insert(13, 78);
-    insert(37, 97);
+    ht_insert(1, 20);
+    ht_insert(2, 70);
+    ht_insert(42, 80);
+    ht_insert(4, 25);
+    ht_insert(12, 44);
+    ht_insert(14, 32);
+    ht_insert(17, 11);
+    ht_insert(13, 78);
+    ht_insert(37, 97);
 
     print_table();
 
     // Query
-    Record* record = query(37);
+    Record* record = ht_query(37);
     printf("Record 37 query  : %d\n", record->value);
 
     // Delete Record
-    delete(record);
+    ht_delete(record);
 
     // Follow-Up Query
-    record = query(37);
+    record = ht_query(37);
     printf("Record 37 deleted: %s\n", (record == NULL) ? "true" : "false" );
 }
