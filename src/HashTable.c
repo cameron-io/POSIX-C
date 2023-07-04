@@ -4,100 +4,97 @@
 #include <stdbool.h>
 
 typedef struct {
-   int key;
-   int value;
+   void* key;
+   void* value;
 } Record;
 
-#define SIZE 20
+#define SIZE 10
 
 Record* table[SIZE];
 Record* null_terminator;
 
-int ht_hash(int key) {
-   return key % SIZE;
+int ht_hash(char* key) {
+   return strlen(key) % SIZE;
 }
 
 void ht_init() {
     null_terminator = (Record*) malloc(sizeof(Record));
-    null_terminator->value = -1;
-    null_terminator->key = -1;
+    null_terminator->value = (void*) NULL;
+    null_terminator->key = (void*) NULL;
 }
 
-void ht_insert(int key, int value) {
+void ht_insert(char* key, char* value) {
     int bucket_index = ht_hash(key);
     Record* record = (Record*) malloc(sizeof(Record));
-    record->value = value;  
-    record->key = key;
+    record->value = (void*) value;
+    record->key = (void*) key;
 
-    while (table[bucket_index] != NULL && table[bucket_index]->key != -1) {
+    while (table[bucket_index] && table[bucket_index]->key) {
         bucket_index++;
-        bucket_index %= SIZE;
     }
     table[bucket_index] = record;
 }
 
-Record* ht_query(int key) {
+Record* ht_query(char* key) {
     int bucket_index = ht_hash(key);
  
-    while(table[bucket_index] != NULL) {
+    while(table[bucket_index]) {
         if(table[bucket_index]->key == key)
             return table[bucket_index];
         bucket_index++;
-        bucket_index %= SIZE;
     }
 
     return NULL;
 }
 
-Record* ht_delete(Record* record) {
-    int key = record->key;
+Record* ht_delete(char* key) {
     int bucket_index = ht_hash(key);
 
-    while (table[bucket_index] != NULL) {
+    while (table[bucket_index]) {
         if (table[bucket_index]->key == key) {
             Record* deleted_record = table[bucket_index];
             table[bucket_index] = null_terminator;
             return deleted_record;
         }
         bucket_index++;
-        bucket_index %= SIZE;
     }
     return NULL;
 }
 
 void print_table() {
+    printf("[\n");
     for (int i = 0; i < SIZE; i++) {
-        if (table[i] != NULL)
-            printf(" (%d, %d) ", table[i]->key, table[i]->value);
+        if (table[i] && table[i]->key)
+            printf("    {\"%s\": \"%s\"}\n", table[i]->key, table[i]->value);
         else
-            printf(" () ");
+            printf("    {\"\": \"\"}\n");
     }
-    printf("\n");
+    printf("]\n");
 }
 
 int main() {
     ht_init();
 
-    ht_insert(1, 20);
-    ht_insert(2, 70);
-    ht_insert(42, 80);
-    ht_insert(4, 25);
-    ht_insert(12, 44);
-    ht_insert(14, 32);
-    ht_insert(17, 11);
-    ht_insert(13, 78);
-    ht_insert(37, 97);
+    ht_insert("Dodge", "Auburn Hills, Michigan");
+    ht_insert("Ford", "Dearborn, Michigan");
+    ht_insert("Chevrolet", "Detroit, Michigan");
+    ht_insert("Ferrari", "Maranello, Italy");
+    ht_insert("Lamborghini", "Bolognese, Italy");
+    ht_insert("Porsche", "Stuttgart, Germany");
 
     print_table();
 
     // Query
-    Record* record = ht_query(37);
-    printf("Record 37 query  : %d\n", record->value);
+    char* key = "Dodge";
+    Record* record = ht_query(key);
+    printf("Record \"%s\" query  : \"%s\"\n", key, record->value);
 
     // Delete Record
-    ht_delete(record);
+    ht_delete(key);
 
     // Follow-Up Query
-    record = ht_query(37);
-    printf("Record 37 deleted: %s\n", (record == NULL) ? "true" : "false" );
+    record = ht_query(key);
+    printf("Record \"%s\" deleted: \"%s\"\n", key, (!record) ? "true" : "false" );
+
+    print_table();
 }
