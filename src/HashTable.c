@@ -3,12 +3,12 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define SIZE 20
-
 typedef struct {
    int key;
    int data;
 } Record;
+
+#define SIZE 20
 
 Record* hash_table[SIZE];
 Record* null_terminator;
@@ -30,21 +30,22 @@ void insert(int key, int data) {
     record->key = key;
 
     while(hash_table[hash_index] != NULL && hash_table[hash_index]->key != -1) {
-        ++hash_index;
+        hash_index++;
         hash_index %= SIZE;
     }
     hash_table[hash_index] = record;
 }
 
-Record *query(int key) {
-    int hash_index = hash(key);  
+Record* query(int key) {
+    int hash_index = hash(key);
  
-    while(hash_table[hash_index] != NULL) {        
+    while(hash_table[hash_index] != NULL) {
         if(hash_table[hash_index]->key == key)
             return hash_table[hash_index];
-        ++hash_index;
+        hash_index++;
         hash_index %= SIZE;
-    }    
+    }
+
     return NULL;
 }
 
@@ -52,11 +53,11 @@ Record* delete(Record* record) {
     int key = record->key;
     int hash_index = hash(key);
 
-    while (hash_table[hash_index] != NULL) {	
+    while (hash_table[hash_index] != NULL) {
         if (hash_table[hash_index]->key == key) {
-            Record* temp = hash_table[hash_index];
+            Record* deleted_record = hash_table[hash_index];
             hash_table[hash_index] = null_terminator;
-            return temp;
+            return deleted_record;
         }
         hash_index++;
         hash_index %= SIZE;
@@ -64,7 +65,7 @@ Record* delete(Record* record) {
     return NULL;
 }
 
-void print_all() {
+void print_table() {
     for (int i = 0; i < SIZE; i++) {
         if (hash_table[i] != NULL)
             printf(" (%d, %d) ", hash_table[i]->key, hash_table[i]->data);
@@ -87,19 +88,16 @@ int main() {
     insert(13, 78);
     insert(37, 97);
 
-    print_all();
+    print_table();
+
+    // Query
     Record* record = query(37);
+    printf("Record 37 query  : %d\n", record->data);
 
-    if(record != NULL)
-        printf("Element found: %d\n", record->data);
-    else
-        printf("Element not found\n");
-
+    // Delete Record
     delete(record);
-    record = query(37);
 
-    if(record != NULL)
-        printf("Element found: %d\n", record->data);
-    else
-        printf("Element not found\n");
+    // Follow-Up Query
+    record = query(37);
+    printf("Record 37 deleted: %s\n", (record == NULL) ? "true" : "false" );
 }
