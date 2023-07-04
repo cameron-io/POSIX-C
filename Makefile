@@ -1,15 +1,18 @@
-CC=gcc
-CFLAGS=-O -DNORMALUNIX -DLINUX
-LDFLAGS=
-LIBS=-lm
+CC = gcc
+CFLAGS = -O -DNORMALUNIX -DLINUX
+LDFLAGS =
+LIBS = -lm
 
-SRC=src
+SRC = src
 
-BUILD=.out
-OBJ=$(BUILD)/obj
-BIN=$(BUILD)/bin
+BUILD =.out
+OBJ = $(BUILD)/obj
+BIN = $(BUILD)/bin
 
-SOURCES = HashTable.out Search.out Sort.out
+SOURCES = HashTable.out Search.out Sort.out Stack.out
+
+CLR = '\033[1;32m'
+NC = '\033[0m'
 
 .PHONY: compile run clean
 
@@ -20,12 +23,12 @@ run:
 	@./$(BIN)/$(TEST).out
 
 %.out: %.o
-	@echo "  > linking $@..."
+	@echo "> linking $@..."
 	@mkdir -p $(BIN)
 	@$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ)/$< -o $(BIN)/$@ $(LIBS)
 
 %.o: $(SRC)/%.c
-	@echo - compiling $<...
+	@echo -e ${CLR}compiling $<...${NC}
 	@mkdir -p $(OBJ)
 	@$(CC) $(CFLAGS) -c $< -o $(OBJ)/$@
 
