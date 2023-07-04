@@ -77,9 +77,9 @@ void print_table() {
         printf("    [");
         for (int j = 0; j < BUCKET_DEPTH; j++) {
             if (table[i][j] && table[i][j]->key)
-                printf("{\"%s\": \"%s\"}", table[i][j]->key, table[i][j]->value);
+                printf("\033[1;36m{\"%s\": \"%s\"}\033[0m", table[i][j]->key, table[i][j]->value);
             else
-                printf("{\"\": \"\"}");
+                printf("nil");
             if (j < BUCKET_DEPTH - 1) printf(", ");
         }
         printf("]\n");
@@ -109,7 +109,7 @@ int main() {
 
     // Follow-Up Query
     record = ht_query(key);
-    printf("Record \"%s\" deleted: \"%s\"\n", key, (!record) ? "true" : "false" );
+    printf("Record \"%s\" deleted: %s\n", key, (!record) ? "true" : "false" );
 
     print_table();
 }
