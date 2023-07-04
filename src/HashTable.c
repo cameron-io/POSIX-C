@@ -66,7 +66,7 @@ Record* ht_delete(char* key) {
             free(deleted_record);
             return NULL;
         }
-        bucket_index++;
+        i++;
     }
     return NULL;
 }
