@@ -10,7 +10,7 @@ typedef struct {
 
 #define SIZE 20
 
-Record* hash_table[SIZE];
+Record* table[SIZE];
 Record* null_terminator;
 
 int ht_hash(int key) {
@@ -24,26 +24,26 @@ void ht_init() {
 }
 
 void ht_insert(int key, int value) {
-    int hash_index = ht_hash(key);
+    int bucket_index = ht_hash(key);
     Record* record = (Record*) malloc(sizeof(Record));
     record->value = value;  
     record->key = key;
 
-    while(hash_table[hash_index] != NULL && hash_table[hash_index]->key != -1) {
-        hash_index++;
-        hash_index %= SIZE;
+    while (table[bucket_index] != NULL && table[bucket_index]->key != -1) {
+        bucket_index++;
+        bucket_index %= SIZE;
     }
-    hash_table[hash_index] = record;
+    table[bucket_index] = record;
 }
 
 Record* ht_query(int key) {
-    int hash_index = ht_hash(key);
+    int bucket_index = ht_hash(key);
  
-    while(hash_table[hash_index] != NULL) {
-        if(hash_table[hash_index]->key == key)
-            return hash_table[hash_index];
-        hash_index++;
-        hash_index %= SIZE;
+    while(table[bucket_index] != NULL) {
+        if(table[bucket_index]->key == key)
+            return table[bucket_index];
+        bucket_index++;
+        bucket_index %= SIZE;
     }
 
     return NULL;
@@ -51,24 +51,24 @@ Record* ht_query(int key) {
 
 Record* ht_delete(Record* record) {
     int key = record->key;
-    int hash_index = ht_hash(key);
+    int bucket_index = ht_hash(key);
 
-    while (hash_table[hash_index] != NULL) {
-        if (hash_table[hash_index]->key == key) {
-            Record* deleted_record = hash_table[hash_index];
-            hash_table[hash_index] = null_terminator;
+    while (table[bucket_index] != NULL) {
+        if (table[bucket_index]->key == key) {
+            Record* deleted_record = table[bucket_index];
+            table[bucket_index] = null_terminator;
             return deleted_record;
         }
-        hash_index++;
-        hash_index %= SIZE;
+        bucket_index++;
+        bucket_index %= SIZE;
     }
     return NULL;
 }
 
 void print_table() {
     for (int i = 0; i < SIZE; i++) {
-        if (hash_table[i] != NULL)
-            printf(" (%d, %d) ", hash_table[i]->key, hash_table[i]->value);
+        if (table[i] != NULL)
+            printf(" (%d, %d) ", table[i]->key, table[i]->value);
         else
             printf(" () ");
     }
