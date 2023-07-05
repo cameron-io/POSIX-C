@@ -46,6 +46,7 @@ void stack_remove() {
     stack->head = prev_head->next;
     if (!stack->head) stack->tail = NULL;
     stack->size--;
+    free(prev_head);
 }
 
 void stack_log() {
