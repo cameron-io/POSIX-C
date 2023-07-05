@@ -98,17 +98,21 @@ int main() {
 
     print_table();
 
-    // Query
-    char* key = "Dodge";
-    Record* record = ht_query(key);
-    printf("Record \"%s\" query  : \"%s\"\n", key, record->value);
+    // Query Bucket Collision
+    char* key1 = "Porsche";
+    Record* record1 = ht_query(key1);
+    printf("Record \"%s\" query  : \"%s\"\n", key1, record1->value);
+
+    char* key2 = "Dodge";
+    Record* record2 = ht_query(key2);
+    printf("Record \"%s\" query  : \"%s\"\n", key2, record2->value);
 
     // Delete Record
-    ht_delete(key);
+    ht_delete(key2);
 
     // Follow-Up Query
-    record = ht_query(key);
-    printf("Record \"%s\" deleted: %s\n", key, (!record) ? "true" : "false" );
+    record2 = ht_query(key2);
+    printf("Record \"%s\" deleted: %s\n", key2, (!record2) ? "true" : "false" );
 
     print_table();
 }
