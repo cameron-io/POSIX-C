@@ -1,5 +1,5 @@
 
-int binary_search(int arr[], int x, int low, int high) {
+int binary_search(int* arr, int x, int low, int high) {
     // Repeat until the pointers low and high meet each other
     while (low <= high) {
         int mid = low + (high - low) / 2;
@@ -9,7 +9,6 @@ int binary_search(int arr[], int x, int low, int high) {
 
         if (arr[mid] < x)
             low = mid + 1;
-
         else
             high = mid - 1;
     }
@@ -19,7 +18,7 @@ int binary_search(int arr[], int x, int low, int high) {
 // TEST
 
 #include <stdio.h>
-#include "Util.h"
+#include "util.h"
 
 #define SIZE 10
 

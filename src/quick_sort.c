@@ -32,7 +32,7 @@ void quick_sort(int arr[], int low, int high) {
 // TEST
 
 #include <stdio.h>
-#include "Util.h"
+#include "util.h"
 
 #define SIZE 10
 
