@@ -3,35 +3,35 @@ CFLAGS = -O -DNORMALUNIX -DLINUX -I include
 LDFLAGS =
 LIBS = -lm
 
-SRC = src
+BUILD_DIR = .out
+OBJ = $(BUILD_DIR)/obj
+BIN = $(BUILD_DIR)/bin
 
-BUILD =.out
-OBJ = $(BUILD)/obj
-BIN = $(BUILD)/bin
-
-SOURCES = HashTable.out Search.out Sort.out Stack.out
+SOURCE_DIR = src
+SOURCES = $(shell find $(SOURCE_DIR) -name '*.c' -type f -printf "%f " | xargs)
+BINARIES = $(addprefix $(BIN)/,$(SOURCES:%.c=%.out))
 
 CLR = '\033[1;32m'
 NC = '\033[0m'
 
 .PHONY: compile run clean
 
-compile: $(SOURCES)
+compile: $(BINARIES)
 	@echo compilation complete.
 
 run: compile
 	@echo -e ${CLR}Running tests...${NC} $(TEST)
 	@./$(BIN)/$(TEST).out
 
-%.out: %.o
+$(BIN)/%.out: $(OBJ)/%.o
 	@echo "> linking $@..."
 	@mkdir -p $(BIN)
-	@$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ)/$< -o $(BIN)/$@ $(LIBS)
+	@$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@ $(LIBS)
 
-%.o: $(SRC)/%.c
+$(OBJ)/%.o: $(SOURCE_DIR)/%.c
 	@echo -e ${CLR}compiling $<...${NC}
 	@mkdir -p $(OBJ)
-	@$(CC) $(CFLAGS) -c $< -o $(OBJ)/$@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(BUILD)
+	rm -rf $(BUILD_DIR)
