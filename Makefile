@@ -7,9 +7,9 @@ BUILD_DIR = .out
 OBJ_DIR = $(BUILD_DIR)/obj
 BIN_DIR = $(BUILD_DIR)/bin
 
-SOURCE_DIR = src
-SOURCES = $(shell find $(SOURCE_DIR) -name '*.c' -type f -printf "%f " | xargs)
-BINARIES = $(addprefix $(BIN_DIR)/,$(SOURCES:%.c=%.out))
+SRC_DIR = src
+SRC_FILES = $(shell find $(SRC_DIR) -name '*.c' -type f -printf "%f\n")
+BINARIES = $(addprefix $(BIN_DIR)/,$(SRC_FILES:%.c=%.out))
 
 CLR = '\033[1;32m'
 NC = '\033[0m'
@@ -17,6 +17,7 @@ NC = '\033[0m'
 .PHONY: compile run clean
 
 compile: $(BINARIES)
+	@rm -rf $(OBJ_DIR)
 	@echo compilation complete.
 
 run: compile
@@ -24,14 +25,15 @@ run: compile
 	@./$(BIN_DIR)/$(TEST).out
 
 $(BIN_DIR)/%.out: $(OBJ_DIR)/%.o
-	@echo "> linking $@..."
+	@echo "> linking..."
 	@mkdir -p $(BIN_DIR)
 	@$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@ $(LIBS)
 
-$(OBJ_DIR)/%.o: $(SOURCE_DIR)/%.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@echo -e ${CLR}compiling $<...${NC}
 	@mkdir -p $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(BUILD_DIR)
+	@rm -rf $(BUILD_DIR)
+	@echo "removed build directory"
