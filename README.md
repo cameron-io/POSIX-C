@@ -5,5 +5,5 @@ Compilation of various learning topics implemented with low-level memory managem
 Usage:
 ```
 make compile
-make run TEST=HashTable
+make run TEST=linked_lists/stack
 ```
