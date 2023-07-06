@@ -7,17 +7,17 @@ BUILD_DIR = .out
 OBJ_DIR = $(BUILD_DIR)/obj
 BIN_DIR = $(BUILD_DIR)/bin
 
-SRC_DIR = src
-SRC_FILES = $(shell find $(SRC_DIR) -name '*.c' -type f -printf "%f\n")
-BINARIES = $(addprefix $(BIN_DIR)/,$(SRC_FILES:%.c=%.out))
+SOURCE_DIR = src
+SOURCE_FILES = $(shell find $(SOURCE_DIR) -type f)
+SOURCE_PATH = $(shell for i in $(SOURCE_FILES); do echo $${i#"$(SOURCE_DIR)/"}; done)
+BIN = $(addprefix $(BIN_DIR)/, $(SOURCE_PATH:%.c=%.out))
 
 CLR = '\033[1;32m'
 NC = '\033[0m'
 
 .PHONY: compile run clean
 
-compile: $(BINARIES)
-	@rm -rf $(OBJ_DIR)
+compile: $(BIN_DIR) $(OBJ_DIR) $(BIN)
 	@echo compilation complete.
 
 run: compile
@@ -26,13 +26,19 @@ run: compile
 
 $(BIN_DIR)/%.out: $(OBJ_DIR)/%.o
 	@echo "> linking..."
-	@mkdir -p $(BIN_DIR)
+	@mkdir -p $(shell dirname $@)
 	@$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@ $(LIBS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@echo -e ${CLR}compiling $<...${NC}
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(shell dirname $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(BIN_DIR):
+	@mkdir -p $@
+
+$(OBJ_DIR):
+	@mkdir -p $@
 
 clean:
 	@rm -rf $(BUILD_DIR)
