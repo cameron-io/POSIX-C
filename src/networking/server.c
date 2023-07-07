@@ -75,7 +75,7 @@ void socket_read_client_request(SOCKET socket_client) {
     char request[1024];
     int bytes_received = recv(socket_client, request, 1024, 0);
     printf("Received %d bytes.\n", bytes_received);
-    printf("%.*s", bytes_received, request);
+    printf("%.*s \n", bytes_received, request);
 }
 
 int socket_send_response(SOCKET socket_client) {
