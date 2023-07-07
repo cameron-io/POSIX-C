@@ -53,6 +53,48 @@ void socket_listen(SOCKET socket) {
     }
 }
 
+SOCKET socket_await(SOCKET socket, struct sockaddr_storage client_address_store, socklen_t client_len) {
+    SOCKET socket_client = accept(socket,
+            (struct sockaddr*) &client_address_store, &client_len);
+    if (!ISVALIDSOCKET(socket_client)) {
+        fprintf(stderr, "accept() failed. (%d)\n", GETSOCKETERRNO());
+        exit(1);
+    }
+    return socket_client;
+}
+
+void socket_handle_client(struct sockaddr_storage client_address_store, socklen_t client_len) {
+    char address_buffer[100];
+    getnameinfo((struct sockaddr*)&client_address_store,
+            client_len, address_buffer, sizeof(address_buffer), 0, 0,
+            NI_NUMERICHOST);
+    printf("%s\n", address_buffer);
+}
+
+void socket_read_client_request(SOCKET socket_client) {
+    char request[1024];
+    int bytes_received = recv(socket_client, request, 1024, 0);
+    printf("Received %d bytes.\n", bytes_received);
+    printf("%.*s", bytes_received, request);
+}
+
+int socket_send_response(SOCKET socket_client) {
+    const char *response =
+        "HTTP/1.1 200 OK\r\n"
+        "Connection: close\r\n"
+        "Content-Type: text/plain\r\n\r\n"
+        "Local time is: ";
+    int bytes_sent = send(socket_client, response, strlen(response), 0);
+    printf("Sent %d of %d bytes.\n", bytes_sent, (int)strlen(response));
+    return bytes_sent;
+}
+
+char *make_payload() {
+    time_t timer;
+    time(&timer);
+    char *time_msg = ctime(&timer);
+}
+
 int main() {
     printf("Configuring local address...\n");
     struct addrinfo hints;
@@ -72,42 +114,22 @@ int main() {
     socket_listen(socket);
 
     printf("Waiting for connection...\n");
-    struct sockaddr_storage client_address;
-    socklen_t client_len = sizeof(client_address);
-    SOCKET socket_client = accept(socket,
-            (struct sockaddr*) &client_address, &client_len);
-    if (!ISVALIDSOCKET(socket_client)) {
-        fprintf(stderr, "accept() failed. (%d)\n", GETSOCKETERRNO());
-        return 1;
-    }
+    struct sockaddr_storage client_address_store;
+    socklen_t client_len = sizeof(client_address_store);
+    SOCKET socket_client = socket_await(socket, client_address_store, client_len);
 
     printf("Client is connected... ");
-    char address_buffer[100];
-    getnameinfo((struct sockaddr*)&client_address,
-            client_len, address_buffer, sizeof(address_buffer), 0, 0,
-            NI_NUMERICHOST);
-    printf("%s\n", address_buffer);
+    socket_handle_client(client_address_store, client_len);
 
     printf("Reading request...\n");
-    char request[1024];
-    int bytes_received = recv(socket_client, request, 1024, 0);
-    printf("Received %d bytes.\n", bytes_received);
-    printf("%.*s", bytes_received, request);
+    socket_read_client_request(socket_client);
 
     printf("Sending response...\n");
-    const char *response =
-        "HTTP/1.1 200 OK\r\n"
-        "Connection: close\r\n"
-        "Content-Type: text/plain\r\n\r\n"
-        "Local time is: ";
-    int bytes_sent = send(socket_client, response, strlen(response), 0);
-    printf("Sent %d of %d bytes.\n", bytes_sent, (int)strlen(response));
+    int bytes_sent = socket_send_response(socket_client);
 
-    time_t timer;
-    time(&timer);
-    char *time_msg = ctime(&timer);
-    bytes_sent = send(socket_client, time_msg, strlen(time_msg), 0);
-    printf("Sent %d of %d bytes.\n", bytes_sent, (int)strlen(time_msg));
+    char *payload = make_payload();
+    bytes_sent = send(socket_client, payload, strlen(payload), 0);
+    printf("Sent %d of %d bytes.\n", bytes_sent, (int)strlen(payload));
 
     printf("Closing connection...\n");
     CLOSESOCKET(socket_client);
