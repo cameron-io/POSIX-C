@@ -17,7 +17,6 @@
 #define GETSOCKETERRNO() (errno)
 
 SOCKET socket_init(struct addrinfo *bind_address) {
-    printf("Creating socket...\n");
     SOCKET new_socket;
     new_socket = socket(bind_address->ai_family,
             bind_address->ai_socktype, bind_address->ai_protocol);
@@ -46,7 +45,6 @@ void socket_bind(SOCKET socket, struct addrinfo *bind_address) {
 }
 
 void socket_listen(SOCKET socket) {
-    printf("Listening...\n");
     if (listen(socket, 10) < 0) {
         fprintf(stderr, "listen() failed. (%d)\n", GETSOCKETERRNO());
         exit(1);
@@ -106,11 +104,13 @@ int main() {
     struct addrinfo *bind_address;
     getaddrinfo(0, "8080", &hints, &bind_address);
 
+    printf("Creating socket...\n");
     SOCKET socket = socket_init(bind_address);
     socket_set_opt(socket);
     socket_bind(socket, bind_address);
     freeaddrinfo(bind_address);
 
+    printf("Listening...\n");
     socket_listen(socket);
 
     printf("Waiting for connection...\n");
