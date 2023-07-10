@@ -2,11 +2,13 @@
 #include <pthread.h>
 
 #define NTHREADS 10
+
 void *thread_function(void *);
 pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
+
 int  counter = 0;
 
-main()
+int main()
 {
    pthread_t thread_id[NTHREADS];
    int i, j;
@@ -26,6 +28,8 @@ main()
    /* have been completed.                                                */
 
    printf("Final counter value: %d\n", counter);
+
+   return 0;
 }
 
 void *thread_function(void *dummyPtr)

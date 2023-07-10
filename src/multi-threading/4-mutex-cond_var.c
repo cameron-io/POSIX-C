@@ -13,7 +13,7 @@ int  count = 0;
 #define COUNT_HALT1  3
 #define COUNT_HALT2  6
 
-main()
+int main()
 {
    pthread_t thread1, thread2;
 
@@ -22,7 +22,7 @@ main()
    pthread_join( thread1, NULL);
    pthread_join( thread2, NULL);
 
-   exit(0);
+   return 0;
 }
 
 void *functionCount1()
