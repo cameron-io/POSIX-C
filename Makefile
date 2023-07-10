@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -O -DNORMALUNIX -DLINUX -I include
-LDFLAGS =
+LDFLAGS = -pthread
 LIBS = -lm
 
 BUILD_DIR = .out
