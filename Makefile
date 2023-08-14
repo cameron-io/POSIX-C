@@ -9,8 +9,8 @@ BIN_DIR = $(BUILD_DIR)/bin
 
 SOURCE_DIR = src
 SOURCE_FILES = $(shell find $(SOURCE_DIR) -type f)
-SOURCE_PATH = $(shell for i in $(SOURCE_FILES); do echo $${i#"$(SOURCE_DIR)/"}; done)
-BIN = $(addprefix $(BIN_DIR)/, $(SOURCE_PATH:%.c=%.out))
+SOURCE_PATHS = $(shell for i in $(SOURCE_FILES); do echo $${i#"$(SOURCE_DIR)/"}; done)
+BIN = $(addprefix $(BIN_DIR)/, $(SOURCE_PATHS:%.c=%.out))
 
 CLR = '\033[1;32m'
 NC = '\033[0m'
