@@ -13,6 +13,10 @@ typedef struct {
     int size;
 } LinkedList;
 
+/*
+    Procedural Implementation of a Doubly-Linked List
+*/
+
 LinkedList* dll;
 
 void dll_init() {
@@ -31,8 +35,7 @@ void dll_push(char* value) {
         dll->head = node;
         dll->tail = node;
     } else {
-        Node* prev_tail = (Node*) malloc(sizeof(Node));
-        prev_tail = dll->tail;
+        Node* prev_tail = dll->tail;
         prev_tail->next = node;
         node->previous = prev_tail;
         dll->tail = node;
