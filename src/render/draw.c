@@ -28,30 +28,28 @@ long long current_time_millisecond() {
 int
 do_run(Window window, Transform transform)
 {
+  // TODO: do draw
   long long ts = current_time_millisecond();
   long long ts_diff = 0;
-
-  // do draw
-  //
   return 0;
 }
 
 int
 run(Window window)
 {
-  struct Transform transform;
-  transform.direction = "right";
+  Transform transform = {.direction = "right"};
   return do_run(window, transform);
 }
 
 int
 main()
 {
-  struct Window window; 
-  window.start_x = 30;
-  window.start_y = 5;
-  window.end_x = 70;
-  window.end_y = 10;
+  Window window = {  
+    .start_x = 30,
+    .start_y = 5,
+    .end_x = 70,
+    .end_y = 10
+  };
   return run(window);
 }
 
