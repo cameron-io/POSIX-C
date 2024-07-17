@@ -19,8 +19,11 @@
 SOCKET
 socket_init(struct addrinfo *bind_address) {
     SOCKET new_socket;
-    new_socket = socket(bind_address->ai_family,
-            bind_address->ai_socktype, bind_address->ai_protocol);
+    new_socket = socket(
+        bind_address->ai_family,
+        bind_address->ai_socktype,
+        bind_address->ai_protocol
+    );
     if (!ISVALIDSOCKET(new_socket)) {
         fprintf(stderr, "socket() failed. (%d)\n", GETSOCKETERRNO());
         exit(1);
@@ -57,8 +60,11 @@ socket_listen(SOCKET socket) {
 
 SOCKET
 socket_await(SOCKET socket, struct sockaddr_storage client_address_store, socklen_t client_len) {
-    SOCKET socket_client = accept(socket,
-            (struct sockaddr*) &client_address_store, &client_len);
+    SOCKET socket_client = accept(
+        socket,
+        (struct sockaddr*) &client_address_store,
+        &client_len
+    );
     if (!ISVALIDSOCKET(socket_client)) {
         fprintf(stderr, "accept() failed. (%d)\n", GETSOCKETERRNO());
         exit(1);
@@ -69,9 +75,14 @@ socket_await(SOCKET socket, struct sockaddr_storage client_address_store, sockle
 void
 socket_handle_client(struct sockaddr_storage client_address_store, socklen_t client_len) {
     char address_buffer[100];
-    getnameinfo((struct sockaddr*)&client_address_store,
-            client_len, address_buffer, sizeof(address_buffer), 0, 0,
-            NI_NUMERICHOST);
+    getnameinfo(
+        (struct sockaddr*) &client_address_store,
+        client_len,
+        address_buffer,
+        sizeof(address_buffer),
+        0, 0,
+        NI_NUMERICHOST
+    );
     printf("%s\n", address_buffer);
 }
 
@@ -120,7 +131,7 @@ main() {
     socket_bind(socket, bind_address);
     freeaddrinfo(bind_address);
 
-    printf("Listening...\n");
+    printf("Listening on http://localhost:%d\n", 8080);
     socket_listen(socket);
 
     while(1) {
@@ -142,8 +153,6 @@ main() {
         bytes_sent = send(socket_client, payload, strlen(payload), 0);
 
         int payload_len = (int)strlen(payload);
-
-        while(bytes_sent < payload_len) {}
 
         printf("Sent %d of %d bytes.\n", bytes_sent, payload_len);
 
