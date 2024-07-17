@@ -13,11 +13,13 @@ typedef struct {
 Record* table[NUM_BUCKETS][BUCKET_DEPTH];
 Record* null_terminator;
 
-int ht_hash(char* key) {
+int
+ht_hash(char* key) {
    return strlen(key) % NUM_BUCKETS;
 }
 
-void ht_init() {
+void
+ht_init() {
     null_terminator = (Record*) malloc(sizeof(Record));
     null_terminator->value = (void*) NULL;
     null_terminator->key = (void*) NULL;
@@ -29,7 +31,8 @@ void ht_init() {
     }
 }
 
-void ht_insert(char* key, char* value) {
+void
+ht_insert(char* key, char* value) {
     int bucket_index = ht_hash(key);
     Record* record = (Record*) malloc(sizeof(Record));
     record->value = (void*) value;
@@ -42,7 +45,8 @@ void ht_insert(char* key, char* value) {
     table[bucket_index][i] = record;
 }
 
-Record* ht_query(char* key) {
+Record*
+ht_query(char* key) {
     int bucket_index = ht_hash(key);
 
     int i = 0;
@@ -54,7 +58,8 @@ Record* ht_query(char* key) {
     return NULL;
 }
 
-Record* ht_delete(char* key) {
+Record*
+ht_delete(char* key) {
     int bucket_index = ht_hash(key);
 
     int i = 0;
@@ -70,7 +75,8 @@ Record* ht_delete(char* key) {
     return NULL;
 }
 
-void print_table() {
+void
+print_table() {
     printf("[\n");
     for (int i = 0; i < NUM_BUCKETS; i++) {
         printf("    [");
@@ -86,7 +92,8 @@ void print_table() {
     printf("]\n");
 }
 
-int main() {
+int
+main() {
     ht_init();
 
     ht_insert("Dodge", "Auburn Hills, Michigan");
