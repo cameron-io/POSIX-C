@@ -36,8 +36,26 @@ typedef struct
   Transform transform;
 } Object;
 
-void draw(Object *object)
+char* draw_object_detail(int x, int y, Object* object)
 {
+  if (x == object->start_x && y == object->start_y || // top-left
+      x == object->end_x   && y == object->end_y   || // top-right
+      x == object->start_x && y == object->end_y   || // bottom-left
+      x == object->end_x   && y == object->end_y)     // bottom-right
+  {
+    return "+";
+  } else if (x == object->start_x || x == object->end_x) {
+    return "|";
+  } else {
+    return "0";
+  }
+}
+
+char* draw(Object *object)
+{
+  char* output;
+  output = malloc(sizeof(char) * 16);
+  
   int y = 0;
   while(y < SCREEN_HEIGHT)
   {
@@ -47,7 +65,13 @@ void draw(Object *object)
       if (x > object->start_x && y > object->start_y && 
           x < object->end_x   && y < object->end_y)
       {
-        screen[y][x] = "\033[42m-\033[0m";
+        char* enable_colour = "\033[42m";
+        char* value = draw_object_detail(x, y, object);
+        char* disable_colour = "\033[0m";
+        strcpy(output, enable_colour);
+        strcat(output, value);
+        strcat(output, disable_colour);
+        screen[y][x] = output;
       }
       else {
         screen[y][x] = " ";
@@ -56,6 +80,7 @@ void draw(Object *object)
     }
     y++;
   }
+  return output;
 }
 
 void clean_render_space()
@@ -123,9 +148,10 @@ run(Object *object)
     print_fps(new_ts - ts);
     ts = new_ts;
 
-    draw(object);
+    char* new_render = draw(object);
     print_screen();
     refresh_screen(new_ts);
+    free(new_render);
     
     switch (object->transform.direction) {
       // Right
