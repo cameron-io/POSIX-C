@@ -3,15 +3,17 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-int SCREEN_WIDTH = 128;
-int SCREEN_HEIGHT = 22;
+#define SCREEN_WIDTH 64
+#define SCREEN_HEIGHT 11
 
-int TRANSFORM_RATE = 2;
+#define TRANSFORM_RATE 2
 
 // refresh every 250 milliseconds (4 fps)
-int FRAME_TIME = 250;
+#define FRAME_TIME 250
 
-char* DEFAULT_FG_COLOUR = "0";
+#define DEFAULT_FG_COLOUR "0"
+
+char* screen[SCREEN_HEIGHT][SCREEN_WIDTH]; 
 
 enum Direction {
   RIGHT = 1,
@@ -34,23 +36,78 @@ typedef struct
   Transform transform;
 } Object;
 
+void draw(Object *object)
+{
+  int y = 0;
+  while(y < SCREEN_HEIGHT)
+  {
+    int x = 0;
+    while(x < SCREEN_WIDTH)
+    {
+      screen[y][x] = ".";
+      x = x + 1;
+    }
+    y = y + 1;
+  }
+}
+
+void clean_render_space()
+{
+  for (int y = 0; y < SCREEN_HEIGHT; y++) {
+    for (int x = 0; x < SCREEN_WIDTH; x++) {
+      screen[y][x] = NULL;
+    }
+  }
+}
+
 long long current_time_millisecond() {
     struct timeval te; 
     gettimeofday(&te, NULL);
     return te.tv_sec*1000LL + te.tv_usec/1000;
 }
 
+void print_screen()
+{
+  for (int y = 0; y < SCREEN_HEIGHT; y++)
+  {
+    for (int x = 0; x < SCREEN_WIDTH; x++)
+    {
+      printf("%s", screen[y][x]);
+    }
+    printf("\n");
+  }
+}
+
+void clear_screen()
+{
+  printf("\033c");
+}
+
+void refresh_screen(long long ts)
+{
+  long long new_ts = 0;
+  while (FRAME_TIME >= (new_ts - ts))
+  {
+    new_ts = current_time_millisecond();
+  }
+  clear_screen();
+}
+
 int
 run(Object *object)
 {
-  // TODO: do draw
-  long long ts = current_time_millisecond();
-  long long ts_diff = 0;
+  clean_render_space();
 
   while(1)
   {
-    Transform transform = object->transform;
-    switch (transform.direction) {
+    long long ts = current_time_millisecond();
+    long long ts_diff = 0;
+    
+    draw(object);
+    print_screen();
+    refresh_screen(ts);
+    
+    switch (object->transform.direction) {
       // Right
       case 1:
         int new_end_x = object->end_x + TRANSFORM_RATE;
