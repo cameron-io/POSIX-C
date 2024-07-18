@@ -36,7 +36,8 @@ typedef struct
   Transform transform;
 } Object;
 
-char* draw_object_detail(int x, int y, Object* object)
+char*
+draw_object_detail(int x, int y, Object* object)
 {
   if (x == object->start_x && y == object->start_y || // top-left
       x == object->end_x   && y == object->end_y   || // top-right
@@ -51,7 +52,8 @@ char* draw_object_detail(int x, int y, Object* object)
   }
 }
 
-char* draw(Object *object)
+char*
+draw(Object *object)
 {
   char* output;
   output = malloc(sizeof(char) * 16);
@@ -83,7 +85,8 @@ char* draw(Object *object)
   return output;
 }
 
-void clean_render_space()
+void
+clean_render_space()
 {
   for (int y = 0; y < SCREEN_HEIGHT; y++) {
     for (int x = 0; x < SCREEN_WIDTH; x++) {
@@ -92,13 +95,15 @@ void clean_render_space()
   }
 }
 
-long long current_time_millisecond() {
+long long
+current_time_millisecond() {
     struct timeval te; 
     gettimeofday(&te, NULL);
     return te.tv_sec*1000LL + te.tv_usec/1000;
 }
 
-void print_screen()
+void
+print_screen()
 {
   for (int y = 0; y < SCREEN_HEIGHT; y++)
   {
@@ -110,7 +115,8 @@ void print_screen()
   }
 }
 
-void print_fps(int ts_diff)
+void
+print_fps(int ts_diff)
 {
   if (ts_diff > 0)
   {
@@ -120,12 +126,14 @@ void print_fps(int ts_diff)
   }
 }
 
-void clear_screen()
+void
+clear_screen()
 {
   printf("\033c");
 }
 
-void refresh_screen(long long ts)
+void
+refresh_screen(long long ts)
 {
   long long new_ts = 0;
   while (FRAME_TIME >= (new_ts - ts))
