@@ -3,13 +3,13 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-#define SCREEN_WIDTH 64
-#define SCREEN_HEIGHT 11
+#define SCREEN_WIDTH 80
+#define SCREEN_HEIGHT 10
 
-#define TRANSFORM_RATE 2
+#define TRANSFORM_RATE 1
 
-// refresh every 250 milliseconds (4 fps)
-#define FRAME_TIME 250
+// refresh every 16 milliseconds (60 fps)
+#define FRAME_TIME 160
 
 #define DEFAULT_FG_COLOUR "0"
 
@@ -52,9 +52,9 @@ void draw(Object *object)
       else {
         screen[y][x] = ".";
       }
-      x = x + 1;
+      x++;
     }
-    y = y + 1;
+    y++;
   }
 }
 
@@ -118,7 +118,7 @@ run(Object *object)
       // Right
       case 1:
         int new_end_x = object->end_x + TRANSFORM_RATE;
-        if (new_end_x <= SCREEN_WIDTH + TRANSFORM_RATE)
+        if (new_end_x < SCREEN_WIDTH + TRANSFORM_RATE)
         {
           object->start_x = object->start_x + TRANSFORM_RATE;
           object->end_x = new_end_x;
@@ -128,8 +128,8 @@ run(Object *object)
         break;
       // Left
       case 2:
-        int new_start_x = object->end_x - TRANSFORM_RATE;
-        if (new_start_x >= 0)
+        int new_start_x = object->start_x - TRANSFORM_RATE;
+        if (new_start_x >= -1)
         {
           object->start_x = new_start_x;
           object->end_x = object->end_x - TRANSFORM_RATE;
@@ -140,7 +140,7 @@ run(Object *object)
       // Up
       case 3:
         int new_start_y = object->start_y - TRANSFORM_RATE;
-        if (new_start_y >= 0)
+        if (new_start_y >= -1)
         {
           object->start_y = new_start_y;
           object->end_y = object->end_y - TRANSFORM_RATE;
