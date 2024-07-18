@@ -85,6 +85,16 @@ void print_screen()
   }
 }
 
+void print_fps(int ts_diff)
+{
+  if (ts_diff > 0)
+  {
+    printf("%.2ffps\n", (double) 1000 / ts_diff);
+  } else {
+    printf("1000.00fps");
+  }
+}
+
 void clear_screen()
 {
   printf("\033c");
@@ -103,16 +113,19 @@ void refresh_screen(long long ts)
 int
 run(Object *object)
 {
+  long long ts = current_time_millisecond();
+  
   clean_render_space();
 
   while(1)
   {
-    long long ts = current_time_millisecond();
-    long long ts_diff = 0;
-    
+    long long new_ts = current_time_millisecond();
+    print_fps(new_ts - ts);
+    ts = new_ts;
+
     draw(object);
     print_screen();
-    refresh_screen(ts);
+    refresh_screen(new_ts);
     
     switch (object->transform.direction) {
       // Right
