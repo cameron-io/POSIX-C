@@ -44,7 +44,14 @@ void draw(Object *object)
     int x = 0;
     while(x < SCREEN_WIDTH)
     {
-      screen[y][x] = ".";
+      if (x > object->start_x && y > object->start_y && 
+          x < object->end_x   && y < object->end_y)
+      {
+        screen[y][x] = "0";
+      }
+      else {
+        screen[y][x] = ".";
+      }
       x = x + 1;
     }
     y = y + 1;
