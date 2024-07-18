@@ -9,7 +9,7 @@
 #define TRANSFORM_RATE 1
 
 // refresh every 16 milliseconds (60 fps)
-#define FRAME_TIME 160
+#define FRAME_TIME 16
 
 #define DEFAULT_FG_COLOUR "0"
 
@@ -47,10 +47,10 @@ void draw(Object *object)
       if (x > object->start_x && y > object->start_y && 
           x < object->end_x   && y < object->end_y)
       {
-        screen[y][x] = "0";
+        screen[y][x] = "\033[42m-\033[0m";
       }
       else {
-        screen[y][x] = ".";
+        screen[y][x] = " ";
       }
       x++;
     }
@@ -169,7 +169,7 @@ main()
 {
   Object object = {  
     .start_x = 30,
-    .start_y = 5,
+    .start_y = 6,
     .end_x = 70,
     .end_y = 10
   };
