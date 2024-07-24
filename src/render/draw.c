@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-#define SCREEN_WIDTH 80
-#define SCREEN_HEIGHT 10
+#define SCREEN_WIDTH 155
+#define SCREEN_HEIGHT 29
 
 #define TRANSFORM_RATE 1
 
