@@ -1,0 +1,16 @@
+# ninja log v6
+8	183	1736860031338297666	CMakeFiles/linked_list_lib.dir/lib/linked_lists/queue.c.o	a4cc1b5c286f634
+8	183	1736860031338555245	CMakeFiles/linked_list_lib.dir/lib/linked_lists/stack.c.o	caea6c7fd89664bf
+130	285	1736863344770419594	/Users/camerongallichan/Workspace/POSIX-C/bin/Darwin64/Debug/bin/doubly_linked_test	cadfdc008523d45
+131	285	1736863344771298371	/Users/camerongallichan/Workspace/POSIX-C/bin/Darwin64/Debug/bin/stack_test	b8db4dc61b3d4e24
+7	187	1736860031337620784	CMakeFiles/linked_list_lib.dir/lib/linked_lists/doubly_linked.c.o	351310d0e62f101d
+3	132	1736863344643887626	tests/src/CMakeFiles/queue_test.dir/linked_lists/queue_test.c.o	cfa6b38eb6c29691
+2	197	1736863226190430311	lib/src/CMakeFiles/linked_list_lib.dir/linked_lists/doubly_linked.c.o	fcddb026122b72f1
+133	285	1736863344773139446	/Users/camerongallichan/Workspace/POSIX-C/bin/Darwin64/Debug/bin/queue_test	d61a1454b3f972f0
+5	188	1736863691326247234	lib/src/CMakeFiles/server_lib.dir/networking/server.c.o	513984bfd7302b8
+4	131	1736863344644168577	tests/src/CMakeFiles/stack_test.dir/linked_lists/stack_test.c.o	122139648c199cc0
+2	137	1736863263470835193	/Users/camerongallichan/Workspace/POSIX-C/bin/Darwin64/Debug/lib/liblinked_list_lib.dylib	5198fd7ae47d9d57
+3	198	1736863226191218086	lib/src/CMakeFiles/linked_list_lib.dir/linked_lists/stack.c.o	9c09e257cf7bfe3d
+2	198	1736863226190914487	lib/src/CMakeFiles/linked_list_lib.dir/linked_lists/queue.c.o	2a10b6b6eeabf484
+2	226	1736860389638743332	CMakeFiles/doubly_linked.dir/lib/linked_lists/doubly_linked.c.o	e2980aca7c2011ff
+3	130	1736863344643436701	tests/src/CMakeFiles/doubly_linked_test.dir/linked_lists/doubly_linked_test.c.o	5b40ef4f12eb2176

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="Darwin-clang++"
+	BuildStamp="20250114-1240-Experimental"
+	Name="Camerons-Mac-mini.local"
+	Generator="ctest-3.31.3"
+	CompilerName="/usr/bin/clang++"
+	CompilerVersion=""
+	OSName="macOS"
+	Hostname="Camerons-Mac-mini.local"
+	OSRelease="15.1.1"
+	OSVersion="24B91"
+	OSPlatform="x86_64"
+	Is64Bits="1"
+	VendorString="GenuineIntel"
+	VendorID="Intel Corporation"
+	FamilyID="6"
+	ModelID="158"
+	ModelName="Intel(R) Core(TM) i3-8100B CPU @ 3.60GHz"
+	ProcessorCacheSize="32768"
+	NumberOfLogicalCPU="4"
+	NumberOfPhysicalCPU="4"
+	TotalVirtualMemory="1024"
+	TotalPhysicalMemory="8192"
+	LogicalProcessorsPerPhysical="8"
+	ProcessorClockFrequency="3600"
+	>
+	<Testing>
+		<StartDateTime>Jan 14 14:09 GMT</StartDateTime>
+		<StartTestTime>1736863795</StartTestTime>
+		<TestList/>
+		<EndDateTime>Jan 14 14:09 GMT</EndDateTime>
+		<EndTestTime>1736863795</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</Testing>
+</Site>
