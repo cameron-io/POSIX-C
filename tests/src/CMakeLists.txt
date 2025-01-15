@@ -42,3 +42,8 @@ add_test(NAME quick_sort_test COMMAND quick_sort_test)
 add_executable(bubble_sort_test sorting/bubble_sort_test.c)
 target_link_libraries(bubble_sort_test sorting_lib)
 add_test(NAME bubble_sort_test COMMAND bubble_sort_test)
+
+# Memory
+
+add_executable(double_pointer_test memory/double_pointer_test.c)
+add_test(NAME double_pointer_test COMMAND double_pointer_test)
