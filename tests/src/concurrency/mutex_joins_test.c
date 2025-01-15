@@ -16,8 +16,7 @@ int main() {
         pthread_create( &thread_id[i], NULL, thread_function, NULL );
     }
 
-    for(j = 0; j < NTHREADS; j++)
-    {
+    for(j = 0; j < NTHREADS; j++) {
         pthread_join( thread_id[j], NULL); 
     }
 

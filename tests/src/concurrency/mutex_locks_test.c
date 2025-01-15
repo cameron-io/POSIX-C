@@ -13,11 +13,11 @@ int main()
 
     /* Create independent threads each of which will execute functionC */
 
-    if( (rc1=pthread_create( &thread1, NULL, &functionC, NULL)) ) {
+    if( (rc1 = pthread_create( &thread1, NULL, &functionC, NULL)) ) {
         printf("Thread creation failed: %d\n", rc1);
     }
 
-    if( (rc2=pthread_create( &thread2, NULL, &functionC, NULL)) ) {
+    if( (rc2 = pthread_create( &thread2, NULL, &functionC, NULL)) ) {
         printf("Thread creation failed: %d\n", rc2);
     }
 
