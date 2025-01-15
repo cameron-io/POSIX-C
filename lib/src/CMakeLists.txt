@@ -1,5 +1,12 @@
 include_directories(${CPosix_SOURCE_DIR}/lib/include)
 
+# Tables
+
+add_library(tables_lib SHARED
+    table/hash_table.c
+)
+set_target_properties(tables_lib PROPERTIES LINKER_LANGUAGE C)
+
 # LinkedLists
 
 add_library(linked_list_lib SHARED

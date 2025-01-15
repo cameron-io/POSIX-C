@@ -1,6 +1,12 @@
 include_directories(${CPosix_SOURCE_DIR}/lib/include)
 link_directories(${CPosix_SOURCE_DIR}/lib/src)
 
+# Tables
+
+add_executable(hash_table_test table/hash_table_test.c)
+target_link_libraries(hash_table_test tables_lib)
+add_test(NAME hash_table_test COMMAND hash_table_test)
+
 # LinkedLists
 
 add_executable(doubly_linked_test linked_lists/doubly_linked_test.c)
