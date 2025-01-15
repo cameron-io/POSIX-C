@@ -23,6 +23,15 @@ add_library(server_lib SHARED
 )
 set_target_properties(server_lib PROPERTIES LINKER_LANGUAGE C)
 
+add_library(web_server_lib SHARED
+    networking/web_server/content.c
+    networking/web_server/handle.c
+    networking/web_server/manager.c
+    networking/web_server/responses.c
+    networking/web_server/socket.c
+)
+set_target_properties(web_server_lib PROPERTIES LINKER_LANGUAGE C)
+
 # Searching
 
 add_library(search_lib SHARED
