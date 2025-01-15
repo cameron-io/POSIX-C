@@ -1,11 +1,15 @@
 SOURCE_DIR = lib tests
-BIN_DIR = .bin
-BUILD_DIR = .build
+BIN_DIR = ./.bin
+BUILD_DIR = ./.build
 
 .PHONY: compile
 compile: $(SOURCE_DIR)
 	cmake -S. -B$(BUILD_DIR)
-	cmake --build ./$(BUILD_DIR)
+	cmake --build $(BUILD_DIR)
+
+.PHONY: run
+run: $(BIN_DIR)
+	$(BIN_DIR)/$(shell uname -s)$(shell getconf LONG_BIT)/Release/bin/$(APP)
 
 .PHONY: test
 test: compile
