@@ -6,6 +6,8 @@
 #include "web_server/manager.h"
 #include "web_server/responses.h"
 
+const char* base_path = "app/src/server/public";
+
 void handle_requests(struct client_info *client_list, fd_set* reads) {
     struct client_info *client = client_list;
 
@@ -47,7 +49,7 @@ void handle_requests(struct client_info *client_list, fd_set* reads) {
                         send_400(&client_list, client);
                     } else {
                         *end_path = 0;
-                        serve_resource(&client_list, client, path);
+                        serve_resource(&client_list, client, path, base_path);
                     }
                 }
             } //if (q)

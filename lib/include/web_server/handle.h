@@ -5,6 +5,6 @@
 #include "web_server/core.h"
 
 void serve_resource(struct client_info **client_list,
-        struct client_info *client, const char *path);
+        struct client_info *client, const char *path, const char* base_path);
 
 #endif

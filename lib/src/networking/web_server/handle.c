@@ -4,10 +4,13 @@
 #include "web_server/responses.h"
 #include "web_server/content.h"
 
-void serve_resource(struct client_info **client_list,
-        struct client_info *client, const char *path) {
-
-    printf("serve_resource %s %s\n", get_client_address(client), path);
+void serve_resource(
+    struct client_info **client_list,
+    struct client_info *client,
+    const char *path,
+    const char *base_path
+) {
+    printf("GET\t%s\t%s\n", get_client_address(client), path);
 
     if (strcmp(path, "/") == 0) path = "/index.html";
 
@@ -22,7 +25,7 @@ void serve_resource(struct client_info **client_list,
     }
 
     char full_path[128];
-    sprintf(full_path, "public%s", path);
+    sprintf(full_path, "%s%s", base_path, path);
 
     FILE *fp = fopen(full_path, "rb");
 
