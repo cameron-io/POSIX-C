@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "lib/sorting/quick_sort.h"
+#include "quick_sort.h"
 #include "../include/util.h"
 
 #define SIZE 10
