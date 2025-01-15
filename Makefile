@@ -2,14 +2,18 @@ SOURCE_DIR = lib tests
 BIN_DIR = ./.bin
 BUILD_DIR = ./.build
 
+OS_NAME = $(shell uname -s)
+OS_BITNESS = $(shell getconf LONG_BIT)
+BIN_PATH = $(BIN_DIR)/$(OS_NAME)$(OS_BITNESS)
+
 .PHONY: compile
 compile: $(SOURCE_DIR)
 	cmake -S. -B$(BUILD_DIR)
 	cmake --build $(BUILD_DIR)
 
 .PHONY: run
-run: $(BIN_DIR)
-	$(BIN_DIR)/$(shell uname -s)$(shell getconf LONG_BIT)/Release/bin/$(APP)
+run: compile
+	$(BIN_PATH)/Release/bin/$(APP)
 
 .PHONY: test
 test: compile
