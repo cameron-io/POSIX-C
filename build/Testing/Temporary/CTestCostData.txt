@@ -1,4 +1,0 @@
-doubly_linked_test 2 0.344461
-queue_test 1 0.338675
-stack_test 1 0.333263
----

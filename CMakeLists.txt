@@ -17,10 +17,18 @@ set(CMAKE_C_FLAGS "-Wall -Wextra")
 set(CMAKE_C_FLAGS_DEBUG "-g")
 set(CMAKE_C_FLAGS_RELEASE "-O3")
 
-set(FullOutputDir "${CMAKE_SOURCE_DIR}/bin/${CMAKE_SYSTEM_NAME}${OSBitness}/${CMAKE_BUILD_TYPE}")
+include(CTest)
+enable_testing()
+
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+include(CPack)
+
+set(FullOutputDir "${CMAKE_SOURCE_DIR}/.bin/${CMAKE_SYSTEM_NAME}${OSBitness}/${CMAKE_BUILD_TYPE}")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${FullOutputDir}/static_lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${FullOutputDir}/lib")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${FullOutputDir}/bin")
 
+add_subdirectory(app)
 add_subdirectory(lib)
 add_subdirectory(tests)

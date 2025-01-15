@@ -1,6 +1,3 @@
-cmake_minimum_required(VERSION 3.31 FATAL_ERROR)
-project(CPosixSrc VERSION 0.1.0 LANGUAGES C)
-
 include_directories(${CPosix_SOURCE_DIR}/lib/include)
 
 # linked_list_lib

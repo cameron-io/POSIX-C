@@ -1,5 +1,7 @@
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <sys/socket.h>
 #include "server.h"
 
 int
@@ -25,12 +27,13 @@ main() {
 
     while(1) {
         printf("Waiting for connection...\n");
-        struct sockaddr_storage client_address_store;
+        struct sockaddr_storage* client_address_store;
+        client_address_store = malloc(sizeof(struct sockaddr_storage));
         socklen_t client_len = sizeof(client_address_store);
-        SOCKET socket_client = socket_await(socket, client_address_store, client_len);
+        SOCKET socket_client = socket_await(socket, *client_address_store, client_len);
 
         printf("Client is connected...\n");
-        socket_handle_client(client_address_store, client_len);
+        socket_handle_client(*client_address_store, client_len);
 
         printf("Reading request...\n");
         socket_read_client_request(socket_client);

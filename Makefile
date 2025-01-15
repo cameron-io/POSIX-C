@@ -1,6 +1,6 @@
 SOURCE_DIR = lib tests
-BIN_DIR = bin
-BUILD_DIR = build
+BIN_DIR = .bin
+BUILD_DIR = .build
 
 .PHONY: compile
 compile: $(SOURCE_DIR)
