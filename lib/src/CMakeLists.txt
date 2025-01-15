@@ -18,11 +18,6 @@ set_target_properties(linked_list_lib PROPERTIES LINKER_LANGUAGE C)
 
 # Server
 
-add_library(server_lib SHARED
-    networking/server.c
-)
-set_target_properties(server_lib PROPERTIES LINKER_LANGUAGE C)
-
 add_library(web_server_lib SHARED
     networking/web_server/content.c
     networking/web_server/handle.c
