@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <string.h>
+#include <assert.h>
 #include "hash_table.h"
 
 int
@@ -17,18 +19,21 @@ main() {
     // Query Bucket Collision
     char* key1 = "Porsche";
     Record* record1 = ht_query(key1);
-    printf("Record \"%s\" query  : \"%s\"\n", key1, (char*)record1->value);
+    assert(strcmp((char*)record1->value, "Stuttgart, Germany") == 0);
+    printf("GET\t\"%s\" \t: \"%s\"\n", key1, (char*)record1->value);
 
     char* key2 = "Dodge";
     Record* record2 = ht_query(key2);
-    printf("Record \"%s\" query  : \"%s\"\n", key2, (char*)record2->value);
+    assert(strcmp((char*)record2->value, "Auburn Hills, Michigan") == 0);
+    printf("GET\t\"%s\" \t: \"%s\"\n", key2, (char*)record2->value);
 
     // Delete Record
     ht_delete(key2);
 
     // Follow-Up Query
     record2 = ht_query(key2);
-    printf("Record \"%s\" deleted: %s\n", key2, (!record2) ? "true" : "false" );
+    assert(!record2);
+    printf("DELETE\t\"%s\"\n", key2);
 
     print_table();
 }
