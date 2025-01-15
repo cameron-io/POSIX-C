@@ -13,3 +13,16 @@ MacOS:
 ```
 brew install cmake ninja
 ```
+
+### Usage
+
+```
+make compile
+make run APP=<BINARY>
+```
+
+### Testing
+
+```
+make test
+```
