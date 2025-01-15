@@ -7,6 +7,12 @@ add_executable(hash_table_test table/hash_table_test.c)
 target_link_libraries(hash_table_test tables_lib)
 add_test(NAME hash_table_test COMMAND hash_table_test)
 
+# Multi-Threading
+
+add_executable(pthread_test concurrency/pthread_test.c)
+target_link_libraries(pthread_test pthread)
+add_test(NAME pthread_test COMMAND pthread_test)
+
 # LinkedLists
 
 add_executable(doubly_linked_test linked_lists/doubly_linked_test.c)
